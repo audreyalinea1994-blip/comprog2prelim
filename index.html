@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C# Programming 2 Course</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #0d1b2a 0%, #1a1f36 50%, #16213e 100%);
+    }
+
+    .card-gradient {
+      background: linear-gradient(145deg, rgba(26, 31, 54, 0.8), rgba(13, 27, 42, 0.9));
+      backdrop-filter: blur(10px);
+    }
+
+    .code-block {
+      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d30 100%);
+      border-left: 4px solid #0ea5e9;
+    }
+
+    .week-tab {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .week-tab:hover {
+      transform: translateY(-2px);
+    }
+
+    .week-tab.active {
+      background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+    }
+
+    .section-btn {
+      transition: all 0.2s ease;
+    }
+
+    .section-btn:hover {
+      transform: scale(1.02);
+    }
+
+    .section-btn.active {
+      background: rgba(14, 165, 233, 0.2);
+      border-color: #0ea5e9;
+    }
+
+    .quiz-option {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .quiz-option:hover:not(.selected):not(.correct):not(.incorrect) {
+      background: rgba(14, 165, 233, 0.1);
+      border-color: #0ea5e9;
+    }
+
+    .quiz-option.selected {
+      background: rgba(14, 165, 233, 0.2);
+      border-color: #0ea5e9;
+    }
+
+    .quiz-option.correct {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: #22c55e;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, #0ea5e9, #06b6d4, #14b8a6);
+      transition: width 0.5s ease;
+    }
+
+    .keyword { color: #569cd6; font-weight: 600; }
+    .type { color: #4ec9b0; }
+    .string { color: #ce9178; }
+    .comment { color: #6a9955; }
+    .number { color: #b5cea8; }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1f36;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #0ea5e9;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #06b6d4;
+    }
+
+    .highlight-line {
+      background: rgba(14, 165, 233, 0.1);
+      border-left: 3px solid #0ea5e9;
+      padding-left: 12px;
+    }
+
+    .syntax-highlighter {
+      overflow-x: auto;
+    }
+
+    .line-number {
+      color: #6a7280;
+      user-select: none;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-slate-100 overflow-auto">
+  <div id="app" class="h-full w-full"><!-- Header -->
+   <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-lg border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+     <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+       <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl">
+        💻
+       </div>
+       <div>
+        <h1 id="course-title" class="text-xl font-bold text-white">C# Programming 2</h1>
+        <p id="instructor-display" class="text-sm text-slate-400">5-Week Object-Oriented Programming</p>
+       </div>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+       <div class="text-right">
+        <p class="text-xs text-slate-400">Progress</p>
+        <p class="text-sm font-semibold text-cyan-400 mono" id="overall-progress">0%</p>
+       </div>
+       <div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
+        <div id="progress-fill" class="progress-bar h-full rounded-full" style="width: 0%"></div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </header><!-- Week Navigation -->
+   <nav class="sticky top-[73px] z-40 bg-slate-800/80 backdrop-blur-lg border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto px-4 py-3">
+     <div class="flex gap-2 overflow-x-auto pb-1" id="week-tabs"><!-- Week tabs will be generated here -->
+     </div>
+    </div>
+   </nav><!-- Main Content -->
+   <main class="max-w-7xl mx-auto px-4 py-8">
+    <div id="content-area" class="fade-in"><!-- Content will be loaded here -->
+    </div>
+   </main><!-- Footer -->
+   <footer class="border-t border-slate-700/50 bg-slate-900/50 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-center">
+     <p class="text-slate-400 text-sm">💻 C# Programming 2 • Object-Oriented Design • Information Systems</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // Course Data
+    const courseData = {
+      weeks: [
+        {
+          id: 1,
+          title: "Review of Programming Fundamentals",
+          icon: "📚",
+          topics: [
+            "Review of Programming 1 Concepts",
+            "Problem Solving and Algorithm Refinement",
+            "Functions and Modular Programming"
+          ],
+          content: {
+            overview: `
+              <h3 class="text-2xl font-bold text-white mb-6">📌 Week 1: Review of Programming Fundamentals</h3>
+              
+              <div class="space-y-6">
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔄 Review of Programming 1 Concepts</h4>
+                  <p class="text-slate-300 leading-relaxed mb-4">
+                    Before diving into Object-Oriented Programming, let's review the fundamental concepts from Programming 1 that form the foundation of C#.
+                  </p>
+                  
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">📦 Data Types</h5>
+                      <ul class="space-y-1 text-sm text-slate-300">
+                        <li><span class="keyword">int</span>, <span class="keyword">double</span>, <span class="keyword">bool</span>, <span class="keyword">string</span></li>
+                        <li>Variables and constants</li>
+                        <li>Type casting and conversion</li>
+                      </ul>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">🔀 Control Flow</h5>
+                      <ul class="space-y-1 text-sm text-slate-300">
+                        <li><span class="keyword">if/else</span> statements</li>
+                        <li><span class="keyword">for</span>, <span class="keyword">while</span> loops</li>
+                        <li><span class="keyword">switch</span> statements</li>
+                      </ul>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">📚 Collections</h5>
+                      <ul class="space-y-1 text-sm text-slate-300">
+                        <li>Arrays and Lists</li>
+                        <li>Accessing elements</li>
+                        <li>Iteration over collections</li>
+                      </ul>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">🔧 Operators</h5>
+                      <ul class="space-y-1 text-sm text-slate-300">
+                        <li>Arithmetic (+, -, *, /)</li>
+                        <li>Comparison (==, !=, <, >)</li>
+                        <li>Logical (&&, ||, !)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">💡 Problem Solving and Algorithm Refinement</h4>
+                  <p class="text-slate-300 mb-4">
+                    Good programming starts with good problem-solving skills. Let's review the process:
+                  </p>
+                  
+                  <div class="space-y-3">
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <p class="text-sm text-white font-semibold mb-1">1️⃣ Understand the Problem</p>
+                      <p class="text-xs text-slate-400">Read carefully, identify inputs and outputs</p>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <p class="text-sm text-white font-semibold mb-1">2️⃣ Plan the Solution</p>
+                      <p class="text-xs text-slate-400">Break into smaller steps, create pseudocode</p>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <p class="text-sm text-white font-semibold mb-1">3️⃣ Write the Code</p>
+                      <p class="text-xs text-slate-400">Implement the algorithm step by step</p>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <p class="text-sm text-white font-semibold mb-1">4️⃣ Test and Debug</p>
+                      <p class="text-xs text-slate-400">Verify with test cases, fix errors</p>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <p class="text-sm text-white font-semibold mb-1">5️⃣ Optimize</p>
+                      <p class="text-xs text-slate-400">Improve efficiency and readability</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔧 Functions and Modular Programming</h4>
+                  <p class="text-slate-300 mb-4">
+                    Functions allow us to break programs into reusable, manageable pieces.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Function structure in C#</p>
+                    <div class="space-y-1 text-sm mono">
+                      <span class="keyword">public static</span> <span class="type">int</span> <span class="text-white">Add</span>(<span class="type">int</span> <span class="text-white">a</span>, <span class="type">int</span> <span class="text-white">b</span>)</span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">return</span> <span class="text-white">a + b;</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Function Components</h5>
+                      <ul class="space-y-2 text-sm text-slate-300">
+                        <li>• <strong>Return Type:</strong> What the function returns</li>
+                        <li>• <strong>Function Name:</strong> Descriptive identifier</li>
+                        <li>• <strong>Parameters:</strong> Inputs to the function</li>
+                        <li>• <strong>Body:</strong> The code logic</li>
+                      </ul>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Benefits of Modular Code</h5>
+                      <ul class="space-y-2 text-sm text-slate-300">
+                        <li>✓ Code Reusability</li>
+                        <li>✓ Easier Testing</li>
+                        <li>✓ Better Readability</li>
+                        <li>✓ Simplified Debugging</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-6 border border-cyan-500/30">
+                  <h4 class="text-lg font-semibold text-white mb-3">💡 Key Takeaways</h4>
+                  <ul class="space-y-2 text-slate-300">
+                    <li>• Data types and variables are fundamental to all programs</li>
+                    <li>• Control flow structures organize program logic</li>
+                    <li>• Functions break code into manageable, reusable pieces</li>
+                    <li>• Good problem-solving leads to clean, efficient code</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+            activity: `
+              <h3 class="text-2xl font-bold text-white mb-6">🎮 Week 1 Activity: Code Analysis and Improvement</h3>
+              
+              <div class="card-gradient rounded-2xl p-6 border border-slate-600/30 mb-6">
+                <h4 class="text-lg font-semibold text-cyan-400 mb-4">Instructions</h4>
+                <p class="text-slate-300 mb-4">Analyze the code snippets below and identify the issues. Then select the correct improvements.</p>
+              </div>
+
+              <div id="code-activity" class="space-y-6">
+                <div class="bg-slate-800/50 rounded-xl p-4 code-block mb-4">
+                  <p class="text-xs text-slate-400 mono mb-2">// Snippet 1: Poor Code Structure</p>
+                  <div class="space-y-1 text-sm mono">
+                    <span class="keyword">public static void</span> <span class="text-white">Main()</span></span>
+                    <span class="text-white">{</span>
+                    <span class="highlight-line"><span class="keyword">int</span> <span class="text-white">num1 = 5, num2 = 3;</span></span>
+                    <span><span class="keyword">int</span> <span class="text-white">sum = num1 + num2;</span></span>
+                    <span><span class="keyword">int</span> <span class="text-white">product = num1 * num2;</span></span>
+                    <span><span class="keyword">int</span> <span class="text-white">quotient = num1 / num2;</span></span>
+                    <span class="text-white">}</span>
+                  </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <p class="text-sm font-semibold text-white mb-3">What's the issue?</p>
+                    <div class="space-y-2" id="issue-options">
+                      <button onclick="selectAnswer(this, 'issue', 'repetition')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        📌 Repetitive calculations in Main method
+                      </button>
+                      <button onclick="selectAnswer(this, 'issue', 'naming')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        📌 Poor variable naming
+                      </button>
+                      <button onclick="selectAnswer(this, 'issue', 'nofunctions')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        📌 No use of functions/modules
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-white mb-3">Best improvement?</p>
+                    <div class="space-y-2" id="solution-options">
+                      <button onclick="selectAnswer(this, 'solution', 'create')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        ✨ Create helper functions for calculations
+                      </button>
+                      <button onclick="selectAnswer(this, 'solution', 'comments')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        ✨ Add comments to the code
+                      </button>
+                      <button onclick="selectAnswer(this, 'solution', 'arrays')" class="w-full text-left px-4 py-2 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all text-sm activity-option">
+                        ✨ Use arrays to store values
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="activity-feedback" class="hidden">
+                  <div class="bg-green-900/30 rounded-xl p-4 border border-green-500/30">
+                    <p class="text-green-400 font-semibold">✓ Correct! Breaking code into functions improves reusability.</p>
+                  </div>
+                </div>
+
+                <button onclick="checkActivityAnswers()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-medium transition-all mr-3">
+                  ✓ Check Answer
+                </button>
+                <button onclick="resetActivityAnswers()" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all">
+                  🔄 Reset
+                </button>
+              </div>
+            `,
+            quiz: [
+              {
+                question: "Which of the following is NOT a step in the problem-solving process?",
+                options: [
+                  "Understand the problem",
+                  "Create a database",
+                  "Write the code",
+                  "Test and debug"
+                ],
+                correct: 1,
+                explanation: "The main steps are: Understand, Plan, Write Code, Test/Debug, and Optimize. Creating a database is not part of the core problem-solving process."
+              },
+              {
+                question: "What is the primary benefit of using functions?",
+                options: [
+                  "Functions make code run faster",
+                  "Functions allow code reusability and modularity",
+                  "Functions reduce memory usage",
+                  "Functions eliminate all bugs"
+                ],
+                correct: 1,
+                explanation: "Functions allow us to break code into manageable, reusable pieces, improving code organization and maintainability."
+              },
+              {
+                question: "In C#, what keyword is used to return a value from a function?",
+                options: [
+                  "exit",
+                  "return",
+                  "yield",
+                  "break"
+                ],
+                correct: 1,
+                explanation: "The 'return' keyword is used to return a value from a function in C#."
+              },
+              {
+                question: "Which data type would be best for storing a temperature value like 98.6?",
+                options: [
+                  "int",
+                  "string",
+                  "bool",
+                  "double"
+                ],
+                correct: 3,
+                explanation: "The 'double' data type is used for decimal numbers. An 'int' would lose precision."
+              },
+              {
+                question: "What is the correct syntax for a function that takes two integers and returns their sum?",
+                options: [
+                  "public int Sum(int a, int b) { return a + b; }",
+                  "public void Sum(int a, int b) { return a + b; }",
+                  "public Sum(int a, int b) { return a + b; }",
+                  "public int Sum { return a + b; }"
+                ],
+                correct: 0,
+                explanation: "The correct syntax includes: return type (int), function name, parameters in parentheses, and the function body."
+              }
+            ]
+          }
+        },
+        {
+          id: 2,
+          title: "Introduction to Object-Oriented Programming",
+          icon: "🎯",
+          topics: [
+            "OOP Concepts",
+            "Classes and Objects",
+            "Attributes and Methods"
+          ],
+          content: {
+            overview: `
+              <h3 class="text-2xl font-bold text-white mb-6">📌 Week 2: Introduction to Object-Oriented Programming (OOP)</h3>
+              
+              <div class="space-y-6">
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🌍 OOP Concepts</h4>
+                  <p class="text-slate-300 leading-relaxed mb-4">
+                    Object-Oriented Programming is a paradigm that uses "objects" and "classes" to structure code in a more intuitive, modular way.
+                  </p>
+                  
+                  <div class="space-y-3">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">🔑 Four Pillars of OOP</h5>
+                      <div class="grid md:grid-cols-2 gap-3 text-sm">
+                        <div class="border-l-2 border-cyan-500 pl-3">
+                          <p class="font-semibold text-cyan-400">Encapsulation</p>
+                          <p class="text-slate-400 text-xs mt-1">Bundling data and methods together</p>
+                        </div>
+                        <div class="border-l-2 border-cyan-500 pl-3">
+                          <p class="font-semibold text-cyan-400">Inheritance</p>
+                          <p class="text-slate-400 text-xs mt-1">Classes inherit from other classes</p>
+                        </div>
+                        <div class="border-l-2 border-cyan-500 pl-3">
+                          <p class="font-semibold text-cyan-400">Polymorphism</p>
+                          <p class="text-slate-400 text-xs mt-1">Objects behave differently based on context</p>
+                        </div>
+                        <div class="border-l-2 border-cyan-500 pl-3">
+                          <p class="font-semibold text-cyan-400">Abstraction</p>
+                          <p class="text-slate-400 text-xs mt-1">Hide complex implementation details</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">📦 Classes and Objects</h4>
+                  <p class="text-slate-300 mb-4">
+                    A <strong class="text-white">class</strong> is a blueprint, and an <strong class="text-white">object</strong> is an instance of that blueprint.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Class definition</p>
+                    <div class="space-y-1 text-sm mono">
+                      <span class="keyword">public class</span> <span class="type">Car</span></span>
+                      <span class="text-white">{</span>
+                      <span class="keyword">&nbsp;&nbsp;public string</span> <span class="text-white">Brand { get; set; }</span></span>
+                      <span class="keyword">&nbsp;&nbsp;public int</span> <span class="text-white">Year { get; set; }</span></span>
+                      <span class="text-white">}</span>
+                      <br>
+                      <span class="comment">// Creating objects (instances)</span>
+                      <span class="type">Car</span> <span class="text-white">myCar = new</span> <span class="type">Car</span><span class="text-white">();</span>
+                      <span class="text-white">myCar.Brand = </span><span class="string">"Toyota"</span><span class="text-white">;</span>
+                      <span class="text-white">myCar.Year = 2024;</span>
+                    </div>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Class Characteristics</h5>
+                      <ul class="space-y-2 text-sm text-slate-300">
+                        <li>• Blueprint for objects</li>
+                        <li>• Defines properties and methods</li>
+                        <li>• Never executes directly</li>
+                        <li>• Reusable template</li>
+                      </ul>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Object Characteristics</h5>
+                      <ul class="space-y-2 text-sm text-slate-300">
+                        <li>• Instance of a class</li>
+                        <li>• Has actual values</li>
+                        <li>• Takes up memory</li>
+                        <li>• Independent from other objects</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🎛️ Attributes and Methods</h4>
+                  <p class="text-slate-300 mb-4">
+                    Classes contain <strong class="text-white">attributes</strong> (data) and <strong class="text-white">methods</strong> (actions).
+                  </p>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-3">Attributes (Properties)</h5>
+                      <p class="text-sm text-slate-300 mb-3">Represent the state of an object:</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="keyword">public string</span> <span class="text-white">Name</span>
+                        <span class="keyword">public int</span> <span class="text-white">Age</span>
+                        <span class="keyword">public double</span> <span class="text-white">Height</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-3">Methods</h5>
+                      <p class="text-sm text-slate-300 mb-3">Define what an object can do:</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="keyword">public void</span> <span class="text-white">Walk()</span>
+                        <span class="keyword">public void</span> <span class="text-white">Speak(string msg)</span>
+                        <span class="keyword">public int</span> <span class="text-white">GetAge()</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4 mt-4">
+                    <h5 class="font-semibold text-white mb-3">Complete Example:</h5>
+                    <div class="bg-slate-900/50 rounded-lg p-3 code-block text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">Person</span></span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public string</span> <span class="text-white">Name { get; set; }</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;public int</span> <span class="text-white">Age { get; set; }</span></span>
+                      <br>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public void</span> <span class="text-white">Greet()</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;Console</span><span class="text-white">.WriteLine(</span><span class="string">"Hello, I'm " + Name</span><span class="text-white">);</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-6 border border-cyan-500/30">
+                  <h4 class="text-lg font-semibold text-white mb-3">💡 Key Takeaways</h4>
+                  <ul class="space-y-2 text-slate-300">
+                    <li>• OOP models real-world entities as objects</li>
+                    <li>• Classes are blueprints; objects are instances</li>
+                    <li>• Attributes store data; methods provide behavior</li>
+                    <li>• OOP promotes code reusability and organization</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+            activity: `
+              <h3 class="text-2xl font-bold text-white mb-6">🎮 Week 2 Activity: Class Design Challenge</h3>
+              
+              <div class="card-gradient rounded-2xl p-6 border border-slate-600/30 mb-6">
+                <h4 class="text-lg font-semibold text-cyan-400 mb-4">Instructions</h4>
+                <p class="text-slate-300 mb-4">Design a Student class by matching attributes and methods to the correct category. Click to select!</p>
+              </div>
+
+              <div id="oop-activity" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h5 class="text-sm font-semibold text-cyan-400 mb-3 uppercase tracking-wide">Class Components</h5>
+                    <div id="oop-items" class="space-y-2">
+                      <!-- Will be generated -->
+                    </div>
+                  </div>
+                  <div class="space-y-4">
+                    <div>
+                      <h5 class="text-sm font-semibold text-green-400 mb-2">✓ Attributes (Data)</h5>
+                      <div id="attributes-drop" class="min-h-[100px] bg-green-900/20 rounded-xl p-3 border-2 border-dashed border-green-500/30 oop-drop" data-type="attributes">
+                        <p class="text-slate-500 text-sm italic">Drop attributes here...</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-sm font-semibold text-orange-400 mb-2">⚡ Methods (Actions)</h5>
+                      <div id="methods-drop" class="min-h-[100px] bg-orange-900/20 rounded-xl p-3 border-2 border-dashed border-orange-500/30 oop-drop" data-type="methods">
+                        <p class="text-slate-500 text-sm italic">Drop methods here...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="oop-feedback" class="hidden">
+                  <div class="bg-green-900/30 rounded-xl p-4 border border-green-500/30">
+                    <p class="text-green-400 font-semibold">🎉 Perfect! You've correctly identified all class components!</p>
+                  </div>
+                </div>
+
+                <button onclick="checkOOPAnswers()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-medium transition-all mr-3">
+                  ✓ Check Answer
+                </button>
+                <button onclick="resetOOPActivity()" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all">
+                  🔄 Reset
+                </button>
+              </div>
+            `,
+            quiz: [
+              {
+                question: "What is the difference between a class and an object?",
+                options: [
+                  "A class is an instance; an object is a blueprint",
+                  "A class is a blueprint; an object is an instance of that class",
+                  "They are the same thing",
+                  "A class can only have one object"
+                ],
+                correct: 1,
+                explanation: "A class is a blueprint or template, while an object is a specific instance created from that class."
+              },
+              {
+                question: "Which of the following is an attribute in a Student class?",
+                options: [
+                  "Study()",
+                  "Name",
+                  "Sleep()",
+                  "Learn()"
+                ],
+                correct: 1,
+                explanation: "Attributes are data properties (like Name), while methods are actions (like Study(), Sleep())."
+              },
+              {
+                question: "What does the keyword 'new' do in C#?",
+                options: [
+                  "Declares a variable",
+                  "Creates a new instance of a class",
+                  "Deletes an object",
+                  "Imports a namespace"
+                ],
+                correct: 1,
+                explanation: "The 'new' keyword instantiates (creates an instance) of a class."
+              },
+              {
+                question: "Which pillar of OOP allows a class to inherit from another class?",
+                options: [
+                  "Encapsulation",
+                  "Inheritance",
+                  "Polymorphism",
+                  "Abstraction"
+                ],
+                correct: 1,
+                explanation: "Inheritance is the pillar that allows classes to derive properties and methods from other classes."
+              },
+              {
+                question: "In OOP, what is the purpose of methods?",
+                options: [
+                  "To store data",
+                  "To define the blueprint",
+                  "To define the behavior/actions of an object",
+                  "To create new classes"
+                ],
+                correct: 2,
+                explanation: "Methods define what an object can do—the actions and behaviors associated with that object."
+              }
+            ]
+          }
+        },
+        {
+          id: 3,
+          title: "Encapsulation and Access Modifiers",
+          icon: "🔐",
+          topics: [
+            "Encapsulation",
+            "Getters and Setters",
+            "Access Modifiers"
+          ],
+          content: {
+            overview: `
+              <h3 class="text-2xl font-bold text-white mb-6">📌 Week 3: Encapsulation and Access Modifiers</h3>
+              
+              <div class="space-y-6">
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔐 Encapsulation</h4>
+                  <p class="text-slate-300 leading-relaxed mb-4">
+                    Encapsulation is the bundling of data (attributes) and methods into a single unit (class), while hiding internal details from the outside world.
+                  </p>
+                  
+                  <div class="bg-slate-800/50 rounded-xl p-4 mb-4">
+                    <h5 class="font-semibold text-white mb-3">Benefits of Encapsulation:</h5>
+                    <div class="space-y-2 text-sm">
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400 mt-1">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Data Protection:</strong> Prevent unauthorized access</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400 mt-1">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Flexibility:</strong> Modify internal code without affecting external code</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400 mt-1">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Validation:</strong> Control how data is set and accessed</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400 mt-1">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Maintainability:</strong> Easier to maintain and update code</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔑 Access Modifiers</h4>
+                  <p class="text-slate-300 mb-4">
+                    Access modifiers control the visibility and accessibility of class members.
+                  </p>
+
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr class="border-b border-slate-600">
+                          <th class="text-left py-3 px-4 text-cyan-400">Modifier</th>
+                          <th class="text-left py-3 px-4 text-cyan-400">Access Level</th>
+                          <th class="text-left py-3 px-4 text-cyan-400">Use Case</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-slate-300">
+                        <tr class="border-b border-slate-700/50">
+                          <td class="py-3 px-4 font-mono font-semibold text-white">public</td>
+                          <td class="py-3 px-4">Accessible from anywhere</td>
+                          <td class="py-3 px-4">Public methods, properties</td>
+                        </tr>
+                        <tr class="border-b border-slate-700/50">
+                          <td class="py-3 px-4 font-mono font-semibold text-white">private</td>
+                          <td class="py-3 px-4">Only within the class</td>
+                          <td class="py-3 px-4">Internal implementation details</td>
+                        </tr>
+                        <tr class="border-b border-slate-700/50">
+                          <td class="py-3 px-4 font-mono font-semibold text-white">protected</td>
+                          <td class="py-3 px-4">Within class and derived classes</td>
+                          <td class="py-3 px-4">Inheritance scenarios</td>
+                        </tr>
+                        <tr>
+                          <td class="py-3 px-4 font-mono font-semibold text-white">internal</td>
+                          <td class="py-3 px-4">Within same assembly</td>
+                          <td class="py-3 px-4">Same project/namespace</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">📝 Getters and Setters (Properties)</h4>
+                  <p class="text-slate-300 mb-4">
+                    Properties provide controlled access to private data through getter and setter methods.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Without encapsulation (BAD)</p>
+                    <div class="space-y-1 text-sm mono">
+                      <span class="keyword">public class</span> <span class="type">BankAccount</span></span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public double</span> <span class="text-white">Balance;</span> <span class="comment">// Danger!</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// With encapsulation (GOOD)</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">BankAccount</span></span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;private double</span> <span class="text-white">balance;</span></span>
+                      <br>
+                      <span><span class="keyword">&nbsp;&nbsp;public double</span> <span class="text-white">Balance</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;get { return</span> <span class="text-white">balance; }</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;set</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if</span> <span class="text-white">(value >= 0)</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;balance = value;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;}</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Getter</h5>
+                      <p class="text-sm text-slate-300 mb-2">Returns the value of a private variable</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="keyword">get</span> <span class="text-white">{ return value; }</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Setter</h5>
+                      <p class="text-sm text-slate-300 mb-2">Allows controlled modification with validation</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="keyword">set</span> <span class="text-white">{ value = newValue; }</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-6 border border-cyan-500/30">
+                  <h4 class="text-lg font-semibold text-white mb-3">💡 Key Takeaways</h4>
+                  <ul class="space-y-2 text-slate-300">
+                    <li>• Encapsulation protects data and controls access</li>
+                    <li>• Access modifiers (public, private, protected) control visibility</li>
+                    <li>• Properties provide controlled access through getters and setters</li>
+                    <li>• Always use private for internal data; public for interface</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+            activity: `
+              <h3 class="text-2xl font-bold text-white mb-6">🎮 Week 3 Activity: Identify Access Modifiers</h3>
+              
+              <div class="card-gradient rounded-2xl p-6 border border-slate-600/30 mb-6">
+                <h4 class="text-lg font-semibold text-cyan-400 mb-4">Instructions</h4>
+                <p class="text-slate-300 mb-4">For each class member, select the most appropriate access modifier. Consider what should be public vs. private!</p>
+              </div>
+
+              <div id="modifier-activity" class="space-y-4">
+                <!-- Activity questions will be generated -->
+              </div>
+
+              <div id="modifier-feedback" class="hidden mt-6">
+                <div class="bg-green-900/30 rounded-xl p-4 border border-green-500/30">
+                  <p class="text-green-400 font-semibold">✓ All correct! You understand encapsulation principles!</p>
+                </div>
+              </div>
+
+              <button onclick="checkModifierAnswers()" class="mt-6 px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-medium transition-all mr-3">
+                ✓ Check Answer
+              </button>
+              <button onclick="resetModifierActivity()" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all">
+                🔄 Reset
+              </button>
+            `,
+            quiz: [
+              {
+                question: "What is the primary purpose of encapsulation?",
+                options: [
+                  "To make code run faster",
+                  "To protect and control access to internal data",
+                  "To eliminate all bugs",
+                  "To create more classes"
+                ],
+                correct: 1,
+                explanation: "Encapsulation bundles data and methods together and controls access to prevent unauthorized modifications."
+              },
+              {
+                question: "Which access modifier should you use for internal implementation details?",
+                options: [
+                  "public",
+                  "private",
+                  "protected",
+                  "internal"
+                ],
+                correct: 1,
+                explanation: "Use 'private' for internal data that should not be accessed from outside the class."
+              },
+              {
+                question: "What is a property in C#?",
+                options: [
+                  "A variable that stores data",
+                  "A method that performs an action",
+                  "A getter/setter pair that provides controlled access to data",
+                  "A class member"
+                ],
+                correct: 2,
+                explanation: "A property combines a getter and setter to provide controlled access to private data."
+              },
+              {
+                question: "Which access modifier allows access within the class and derived classes?",
+                options: [
+                  "public",
+                  "private",
+                  "protected",
+                  "internal"
+                ],
+                correct: 2,
+                explanation: "'Protected' allows access within the class and any classes that inherit from it."
+              },
+              {
+                question: "In a well-encapsulated class, what should be private?",
+                options: [
+                  "All methods",
+                  "Only getters and setters",
+                  "Internal implementation details and data",
+                  "The class declaration"
+                ],
+                correct: 2,
+                explanation: "Private members are internal implementation details that should not be accessed directly from outside."
+              }
+            ]
+          }
+        },
+        {
+          id: 4,
+          title: "Constructors and Method Overloading",
+          icon: "🔨",
+          topics: [
+            "Constructors",
+            "Method Overloading",
+            "Object Initialization"
+          ],
+          content: {
+            overview: `
+              <h3 class="text-2xl font-bold text-white mb-6">📌 Week 4: Constructors and Method Overloading</h3>
+              
+              <div class="space-y-6">
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔨 Constructors</h4>
+                  <p class="text-slate-300 leading-relaxed mb-4">
+                    A constructor is a special method that initializes objects when they are created. It has the same name as the class.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Constructor example</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">Student</span></span>
+                      <span class="text-white">{</span>
+                      <span class="keyword">&nbsp;&nbsp;public string</span> <span class="text-white">Name { get; set; }</span></span>
+                      <span class="keyword">&nbsp;&nbsp;public int</span> <span class="text-white">Age { get; set; }</span></span>
+                      <br>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public</span> <span class="type">Student</span><span class="text-white">()</span> <span class="comment">// Default constructor</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;Name = "Unknown";</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;Age = 0;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <br>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public</span> <span class="type">Student</span><span class="text-white">(string name, int age)</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;Name = name;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;&nbsp;&nbsp;Age = age;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Default Constructor</h5>
+                      <p class="text-sm text-slate-300 mb-2">Takes no parameters</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="type">Student</span> <span class="text-white">s1 = new</span> <span class="type">Student</span><span class="text-white">();</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Parameterized Constructor</h5>
+                      <p class="text-sm text-slate-300 mb-2">Takes parameters</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="type">Student</span> <span class="text-white">s2 = new</span> <span class="type">Student</span><span class="text-white">("John", 20);</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4 mt-4">
+                    <h5 class="font-semibold text-white mb-2">Constructor Guidelines:</h5>
+                    <ul class="space-y-1 text-sm text-slate-300">
+                      <li>• Same name as the class</li>
+                      <li>• No return type</li>
+                      <li>• Called automatically when object is created</li>
+                      <li>• Can have multiple constructors (overloading)</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">📋 Method Overloading</h4>
+                  <p class="text-slate-300 mb-4">
+                    Method overloading allows multiple methods with the same name but different parameters.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Method overloading example</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">Calculator</span></span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public int</span> <span class="text-white">Add(int a, int b)</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;return</span> <span class="text-white">a + b;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <br>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public double</span> <span class="text-white">Add(double a, double b)</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;return</span> <span class="text-white">a + b;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <br>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public int</span> <span class="text-white">Add(int a, int b, int c)</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;return</span> <span class="text-white">a + b + c;</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4">
+                    <h5 class="font-semibold text-white mb-3">Overloading Rules:</h5>
+                    <div class="space-y-2 text-sm">
+                      <div class="flex items-start gap-2">
+                        <span class="text-cyan-400">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Different parameter types:</strong> int vs double</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-cyan-400">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Different parameter count:</strong> 2 params vs 3 params</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-cyan-400">✓</span>
+                        <span class="text-slate-300"><strong class="text-white">Different parameter order:</strong> (int, string) vs (string, int)</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-red-400">✗</span>
+                        <span class="text-slate-300"><strong class="text-white">Cannot differ by return type alone:</strong> int vs double</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔧 Object Initialization</h4>
+                  <p class="text-slate-300 mb-4">
+                    Objects should be properly initialized before use to ensure they have valid data.
+                  </p>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4">
+                    <h5 class="font-semibold text-white mb-2">Best Practices:</h5>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                      <li>• Always initialize data in constructors</li>
+                      <li>• Provide multiple constructors for flexibility</li>
+                      <li>• Set default values for safety</li>
+                      <li>• Validate input in constructors</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-6 border border-cyan-500/30">
+                  <h4 class="text-lg font-semibold text-white mb-3">💡 Key Takeaways</h4>
+                  <ul class="space-y-2 text-slate-300">
+                    <li>• Constructors initialize objects when they are created</li>
+                    <li>• Multiple constructors provide flexibility</li>
+                    <li>• Method overloading allows same method name with different signatures</li>
+                    <li>• Proper initialization ensures object integrity</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+            activity: `
+              <h3 class="text-2xl font-bold text-white mb-6">🎮 Week 4 Activity: Constructor & Overloading Quiz</h3>
+              
+              <div class="card-gradient rounded-2xl p-6 border border-slate-600/30 mb-6">
+                <h4 class="text-lg font-semibold text-cyan-400 mb-4">Instructions</h4>
+                <p class="text-slate-300 mb-4">Analyze the code and answer whether the constructors/methods are valid. Click True or False!</p>
+              </div>
+
+              <div id="constructor-activity" class="space-y-4">
+                <!-- Questions will be generated -->
+              </div>
+
+              <div id="constructor-score" class="mt-6 bg-slate-800/50 rounded-xl p-4 text-center">
+                <p class="text-lg">Score: <span id="const-correct" class="text-green-400 font-bold">0</span> / <span id="const-total">4</span></p>
+              </div>
+
+              <button onclick="resetConstructorActivity()" class="mt-6 px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all">
+                🔄 Reset
+              </button>
+            `,
+            quiz: [
+              {
+                question: "What is the primary purpose of a constructor?",
+                options: [
+                  "To delete objects",
+                  "To initialize objects when they are created",
+                  "To return values",
+                  "To perform calculations"
+                ],
+                correct: 1,
+                explanation: "Constructors initialize object properties to valid default values when objects are instantiated."
+              },
+              {
+                question: "Can a class have multiple constructors with the same name?",
+                options: [
+                  "No, only one constructor per class",
+                  "Yes, if they have different parameters",
+                  "Yes, but they must have different names",
+                  "No, constructors cannot be duplicated"
+                ],
+                correct: 1,
+                explanation: "Multiple constructors with different parameters are allowed (constructor overloading)."
+              },
+              {
+                question: "Which of these is NOT a valid method overloading scenario?",
+                options: [
+                  "Same name, different parameter types",
+                  "Same name, different parameter count",
+                  "Same name, different return type only",
+                  "Same name, different parameter order"
+                ],
+                correct: 2,
+                explanation: "Methods cannot be overloaded by return type alone; parameters must differ."
+              },
+              {
+                question: "What does it mean if a class has no explicit constructor?",
+                options: [
+                  "The class cannot be instantiated",
+                  "A default parameterless constructor is provided",
+                  "An error occurs",
+                  "Objects have no initial values"
+                ],
+                correct: 1,
+                explanation: "C# automatically provides a default parameterless constructor if none is defined."
+              },
+              {
+                question: "In a parameterized constructor, what should always be done?",
+                options: [
+                  "Print a message",
+                  "Calculate values",
+                  "Initialize all member variables with valid values",
+                  "Return a value"
+                ],
+                correct: 2,
+                explanation: "Parameterized constructors should always initialize all member variables with the provided parameters."
+              }
+            ]
+          }
+        },
+        {
+          id: 5,
+          title: "Inheritance",
+          icon: "🌳",
+          topics: [
+            "Base and Derived Classes",
+            "Types of Inheritance",
+            "Code Reusability"
+          ],
+          content: {
+            overview: `
+              <h3 class="text-2xl font-bold text-white mb-6">📌 Week 5: Inheritance</h3>
+              
+              <div class="space-y-6">
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🌳 Base and Derived Classes</h4>
+                  <p class="text-slate-300 leading-relaxed mb-4">
+                    Inheritance allows a class (derived class) to inherit properties and methods from another class (base class).
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Base class (Parent)</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">Animal</span></span>
+                      <span class="text-white">{</span>
+                      <span><span class="keyword">&nbsp;&nbsp;public string</span> <span class="text-white">Name { get; set; }</span></span>
+                      <br>
+                      <span><span class="keyword">&nbsp;&nbsp;public void</span> <span class="text-white">Eat()</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;Console</span><span class="text-white">.WriteLine(</span><span class="string">"Eating..."</span><span class="text-white">);</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Derived class (Child) - inherits from Animal</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public class</span> <span class="type">Dog</span> <span class="keyword">:</span> <span class="type">Animal</span></span>
+                      <span class="text-white">{</span>
+                      <span class="highlight-line"><span class="keyword">&nbsp;&nbsp;public void</span> <span class="text-white">Bark()</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;{</span></span>
+                      <span><span class="keyword">&nbsp;&nbsp;&nbsp;&nbsp;Console</span><span class="text-white">.WriteLine(</span><span class="string">"Woof!"</span><span class="text-white">);</span></span>
+                      <span><span class="text-white">&nbsp;&nbsp;}</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4">
+                    <p class="text-sm text-slate-300 mb-2">A Dog object now has:</p>
+                    <ul class="space-y-1 text-sm text-slate-300">
+                      <li>✓ All properties from Animal (Name)</li>
+                      <li>✓ All methods from Animal (Eat())</li>
+                      <li>✓ Its own methods (Bark())</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">📊 Types of Inheritance</h4>
+                  <p class="text-slate-300 mb-4">
+                    Different inheritance patterns serve different purposes in object-oriented design.
+                  </p>
+
+                  <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <h5 class="font-semibold text-white mb-2">Single Inheritance</h5>
+                      <p class="text-sm text-slate-300 mb-3">One derived class inherits from one base class</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="type">Dog</span> <span class="keyword">:</span> <span class="type">Animal</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <h5 class="font-semibold text-white mb-2">Multilevel Inheritance</h5>
+                      <p class="text-sm text-slate-300 mb-3">Chain of inheritance: grandparent → parent → child</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="type">Animal</span> → <span class="type">Dog</span> → <span class="type">ServiceDog</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-cyan-500">
+                      <h5 class="font-semibold text-white mb-2">Hierarchical Inheritance</h5>
+                      <p class="text-sm text-slate-300 mb-3">Multiple classes inherit from one base</p>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="type">Animal</span> ← <span class="type">Dog</span>, <span class="type">Cat</span>
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4 border-l-4 border-orange-500">
+                      <h5 class="font-semibold text-white mb-2">⚠️ Multiple Inheritance</h5>
+                      <p class="text-sm text-slate-300 mb-2"><strong class="text-orange-400">NOT supported in C#!</strong></p>
+                      <p class="text-xs text-slate-400">Use interfaces instead</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">♻️ Code Reusability</h4>
+                  <p class="text-slate-300 mb-4">
+                    Inheritance is one of the most powerful tools for reusing code in OOP.
+                  </p>
+
+                  <div class="space-y-3">
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">Before Inheritance (Repetitive)</h5>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="comment">// Writing similar code for each class</span><br>
+                        <span class="keyword">class</span> <span class="type">Dog</span> { <span class="keyword">string</span> <span class="text-white">Name;</span> <span class="keyword">void</span> <span class="text-white">Eat()</span> ... }<br>
+                        <span class="keyword">class</span> <span class="type">Cat</span> { <span class="keyword">string</span> <span class="text-white">Name;</span> <span class="keyword">void</span> <span class="text-white">Eat()</span> ... }
+                      </div>
+                    </div>
+                    <div class="bg-slate-800/50 rounded-xl p-4">
+                      <h5 class="font-semibold text-white mb-2">After Inheritance (Efficient)</h5>
+                      <div class="bg-slate-900/50 rounded-lg p-2 code-block text-xs mono">
+                        <span class="comment">// Reusing Animal code</span><br>
+                        <span class="keyword">class</span> <span class="type">Animal</span> { <span class="keyword">string</span> <span class="text-white">Name;</span> <span class="keyword">void</span> <span class="text-white">Eat()</span> ... }<br>
+                        <span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">:</span> <span class="type">Animal</span> { }<br>
+                        <span class="keyword">class</span> <span class="type">Cat</span> <span class="keyword">:</span> <span class="type">Animal</span> { }
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-800/50 rounded-xl p-4 mt-4">
+                    <h5 class="font-semibold text-white mb-3">Benefits:</h5>
+                    <div class="grid md:grid-cols-2 gap-2 text-sm">
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400">✓</span>
+                        <span class="text-slate-300">Write code once, use many times</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400">✓</span>
+                        <span class="text-slate-300">Easier maintenance (fix in base class)</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400">✓</span>
+                        <span class="text-slate-300">Consistent behavior across subclasses</span>
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <span class="text-green-400">✓</span>
+                        <span class="text-slate-300">Reduced code duplication</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+                  <h4 class="text-lg font-semibold text-cyan-400 mb-3">🔄 Override and Virtual Methods</h4>
+                  <p class="text-slate-300 mb-4">
+                    Derived classes can override base class methods to customize behavior.
+                  </p>
+
+                  <div class="bg-slate-900/50 rounded-xl p-4 code-block">
+                    <p class="text-xs text-slate-400 mb-2 mono">// Virtual method in base class</p>
+                    <div class="space-y-1 text-sm mono overflow-x-auto">
+                      <span class="keyword">public virtual void</span> <span class="text-white">MakeSound()</span></span>
+                      <span class="text-white">{</span>
+                      <span><span class="keyword">&nbsp;&nbsp;Console</span><span class="text-white">.WriteLine(</span><span class="string">"Generic sound"</span><span class="text-white">);</span></span>
+                      <span class="text-white">}</span>
+                      <br>
+                      <span class="comment">// Override in derived class</span>
+                      <span class="keyword">public override void</span> <span class="text-white">MakeSound()</span></span>
+                      <span class="text-white">{</span>
+                      <span><span class="keyword">&nbsp;&nbsp;Console</span><span class="text-white">.WriteLine(</span><span class="string">"Woof!"</span><span class="text-white">);</span></span>
+                      <span class="text-white">}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-6 border border-cyan-500/30">
+                  <h4 class="text-lg font-semibold text-white mb-3">💡 Key Takeaways</h4>
+                  <ul class="space-y-2 text-slate-300">
+                    <li>• Inheritance allows classes to reuse code from a base class</li>
+                    <li>• Single inheritance is the primary pattern in C#</li>
+                    <li>• Derived classes can override methods for customization</li>
+                    <li>• Inheritance reduces code duplication and improves maintainability</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+            activity: `
+              <h3 class="text-2xl font-bold text-white mb-6">🎮 Week 5 Activity: Inheritance Class Hierarchy</h3>
+              
+              <div class="card-gradient rounded-2xl p-6 border border-slate-600/30 mb-6">
+                <h4 class="text-lg font-semibold text-cyan-400 mb-4">Instructions</h4>
+                <p class="text-slate-300 mb-4">Build a class hierarchy by dragging classes and methods to their correct positions!</p>
+              </div>
+
+              <div id="inheritance-activity" class="space-y-6">
+                <div class="bg-slate-800/50 rounded-xl p-6">
+                  <h5 class="text-lg font-semibold text-cyan-400 mb-4">Vehicle Hierarchy</h5>
+                  
+                  <div class="mb-6">
+                    <p class="text-sm text-slate-300 mb-2">Base Class:</p>
+                    <div class="bg-cyan-900/30 rounded-xl p-4 border-2 border-cyan-500 mb-4">
+                      <p class="font-semibold text-white">🚗 Vehicle (Base Class)</p>
+                      <ul class="mt-2 space-y-1 text-sm text-slate-300">
+                        <li>• Brand (string)</li>
+                        <li>• Speed (int)</li>
+                        <li>• Start() method</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p class="text-sm text-slate-300 mb-3">Drag methods to the correct derived classes:</p>
+                  
+                  <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                      <p class="text-sm font-semibold text-white mb-2">Methods to Assign:</p>
+                      <div id="inherit-methods" class="space-y-2">
+                        <div class="px-4 py-2 bg-slate-700 rounded-lg text-sm cursor-move hover:bg-slate-600" draggable="true" ondragstart="inheritDragStart(event)">
+                          🚙 OpenTrunk()
+                        </div>
+                        <div class="px-4 py-2 bg-slate-700 rounded-lg text-sm cursor-move hover:bg-slate-600" draggable="true" ondragstart="inheritDragStart(event)">
+                          ⚙️ ChangeBike()
+                        </div>
+                        <div class="px-4 py-2 bg-slate-700 rounded-lg text-sm cursor-move hover:bg-slate-600" draggable="true" ondragstart="inheritDragStart(event)">
+                          🚗 HonkHorn()
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                      <div class="bg-green-900/30 rounded-xl p-4 border-2 border-dashed border-green-500 inherit-drop" ondragover="inheritDragOver(event)" ondrop="inheritDrop(event, 'car')">
+                        <p class="font-semibold text-white mb-2">🚙 Car Class</p>
+                        <p class="text-xs text-slate-400">Drop car-specific methods here</p>
+                        <div id="car-methods" class="mt-2 space-y-1"></div>
+                      </div>
+                      <div class="bg-purple-900/30 rounded-xl p-4 border-2 border-dashed border-purple-500 inherit-drop" ondragover="inheritDragOver(event)" ondrop="inheritDrop(event, 'bike')">
+                        <p class="font-semibold text-white mb-2">🏍️ Bike Class</p>
+                        <p class="text-xs text-slate-400">Drop bike-specific methods here</p>
+                        <div id="bike-methods" class="mt-2 space-y-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="inherit-feedback" class="hidden">
+                  <div class="bg-green-900/30 rounded-xl p-4 border border-green-500/30">
+                    <p class="text-green-400 font-semibold">✓ Correct! You've built a proper class hierarchy!</p>
+                  </div>
+                </div>
+
+                <button onclick="checkInheritanceAnswers()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-medium transition-all mr-3">
+                  ✓ Check Answer
+                </button>
+                <button onclick="resetInheritanceActivity()" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-all">
+                  🔄 Reset
+                </button>
+              </div>
+            `,
+            quiz: [
+              {
+                question: "In inheritance, what is the base class also called?",
+                options: [
+                  "Child class",
+                  "Parent class or Superclass",
+                  "Interface",
+                  "Abstract class"
+                ],
+                correct: 1,
+                explanation: "The base class is also called the parent class or superclass."
+              },
+              {
+                question: "Which of the following is a type of inheritance supported in C#?",
+                options: [
+                  "Multiple inheritance",
+                  "Single inheritance",
+                  "Cyclic inheritance",
+                  "Parallel inheritance"
+                ],
+                correct: 1,
+                explanation: "C# supports single inheritance. Multiple inheritance is not allowed but can be achieved through interfaces."
+              },
+              {
+                question: "What keyword is used in C# to indicate a class inherits from another?",
+                options: [
+                  "extend",
+                  "inherits",
+                  ":",
+                  "inherits from"
+                ],
+                correct: 2,
+                explanation: "The colon (:) symbol is used to indicate inheritance in C#. Example: class Dog : Animal"
+              },
+              {
+                question: "Can a derived class access private members of the base class?",
+                options: [
+                  "Yes, always",
+                  "No, never",
+                  "Only if marked protected",
+                  "Only if overridden"
+                ],
+                correct: 1,
+                explanation: "Private members are only accessible within the class where they are defined, not in derived classes."
+              },
+              {
+                question: "What is the primary advantage of inheritance?",
+                options: [
+                  "Making code harder to understand",
+                  "Code reusability and reducing duplication",
+                  "Creating more classes",
+                  "Faster program execution"
+                ],
+                correct: 1,
+                explanation: "Inheritance allows code to be reused across multiple derived classes, reducing duplication."
+              }
+            ]
+          }
+        }
+      ]
+    };
+
+    // State Management
+    let currentWeek = 1;
+    let currentSection = 'lesson';
+    let quizState = {};
+    let completedWeeks = new Set();
+    
+    // Activity State
+    let activityAnswers = { issue: null, solution: null };
+    let modifierAnswers = {};
+    let constructorAnswers = {};
+    let inheritanceAnswers = { car: new Set(), bike: new Set() };
+
+    // Default Config
+    const defaultConfig = {
+      course_title: 'C# Programming 2',
+      instructor_name: '5-Week Object-Oriented Programming'
+    };
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const title = config.course_title || defaultConfig.course_title;
+          const instructor = config.instructor_name || defaultConfig.instructor_name;
+          
+          document.getElementById('course-title').textContent = title;
+          document.getElementById('instructor-display').textContent = instructor;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['course_title', config.course_title || defaultConfig.course_title],
+          ['instructor_name', config.instructor_name || defaultConfig.instructor_name]
+        ])
+      });
+    }
+
+    // Initialize Application
+    function init() {
+      renderWeekTabs();
+      loadWeekContent(1);
+      updateProgress();
+    }
+
+    // Render Week Tabs
+    function renderWeekTabs() {
+      const container = document.getElementById('week-tabs');
+      container.innerHTML = courseData.weeks.map(week => `
+        <button 
+          onclick="selectWeek(${week.id})" 
+          class="week-tab flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap
+            ${currentWeek === week.id ? 'active text-white' : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50'}"
+          id="week-tab-${week.id}"
+        >
+          <span>${week.icon}</span>
+          <span>Week ${week.id}</span>
+          ${completedWeeks.has(week.id) ? '<span class="text-green-400">✓</span>' : ''}
+        </button>
+      `).join('');
+    }
+
+    // Select Week
+    function selectWeek(weekId) {
+      currentWeek = weekId;
+      currentSection = 'lesson';
+      renderWeekTabs();
+      loadWeekContent(weekId);
+    }
+
+    // Load Week Content
+    function loadWeekContent(weekId) {
+      const week = courseData.weeks.find(w => w.id === weekId);
+      const contentArea = document.getElementById('content-area');
+      
+      contentArea.innerHTML = `
+        <div class="slide-up">
+          <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-3xl shadow-lg">
+                ${week.icon}
+              </div>
+              <div>
+                <h2 class="text-2xl font-bold text-white">Week ${week.id}</h2>
+                <p class="text-slate-400">${week.title}</p>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-6">
+              ${week.topics.map(topic => `
+                <span class="px-3 py-1 bg-slate-700/50 rounded-full text-sm text-slate-300">${topic}</span>
+              `).join('')}
+            </div>
+            
+            <div class="flex gap-3 border-b border-slate-700 pb-4">
+              <button 
+                onclick="showSection('lesson')" 
+                class="section-btn px-6 py-3 rounded-xl font-medium transition-all border-2
+                  ${currentSection === 'lesson' ? 'active border-cyan-500 text-white' : 'border-slate-600 text-slate-400 hover:text-white'}"
+              >
+                📚 Lesson
+              </button>
+              <button 
+                onclick="showSection('activity')" 
+                class="section-btn px-6 py-3 rounded-xl font-medium transition-all border-2
+                  ${currentSection === 'activity' ? 'active border-cyan-500 text-white' : 'border-slate-600 text-slate-400 hover:text-white'}"
+              >
+                🎮 Activity
+              </button>
+              <button 
+                onclick="showSection('quiz')" 
+                class="section-btn px-6 py-3 rounded-xl font-medium transition-all border-2
+                  ${currentSection === 'quiz' ? 'active border-cyan-500 text-white' : 'border-slate-600 text-slate-400 hover:text-white'}"
+              >
+                📝 Quiz
+              </button>
+            </div>
+          </div>
+          
+          <div id="section-content" class="fade-in">
+            ${getSectionContent(week)}
+          </div>
+        </div>
+      `;
+      
+      // Initialize activity if needed
+      if (currentSection === 'activity') {
+        initializeActivity(weekId);
+      }
+    }
+
+    // Show Section
+    function showSection(section) {
+      currentSection = section;
+      loadWeekContent(currentWeek);
+    }
+
+    // Get Section Content
+    function getSectionContent(week) {
+      switch (currentSection) {
+        case 'lesson':
+          return week.content.overview;
+        case 'activity':
+          return week.content.activity;
+        case 'quiz':
+          return renderQuiz(week);
+        default:
+          return week.content.overview;
+      }
+    }
+
+    // Initialize Activity
+    function initializeActivity(weekId) {
+      switch (weekId) {
+        case 1:
+          // Code analysis activity is click-based
+          break;
+        case 2:
+          initOOPActivity();
+          break;
+        case 3:
+          initModifierActivity();
+          break;
+        case 4:
+          initConstructorActivity();
+          break;
+        case 5:
+          // Inheritance activity initialized via drag
+          break;
+      }
+    }
+
+    // Week 1: Code Activity
+    function selectAnswer(el, type, value) {
+      if (type === 'issue') {
+        document.querySelectorAll('#issue-options button').forEach(b => b.classList.remove('ring-2', 'ring-cyan-400'));
+        if (activityAnswers.issue === value) {
+          activityAnswers.issue = null;
+          el.classList.remove('ring-2', 'ring-cyan-400');
+        } else {
+          activityAnswers.issue = value;
+          el.classList.add('ring-2', 'ring-cyan-400');
+        }
+      } else if (type === 'solution') {
+        document.querySelectorAll('#solution-options button').forEach(b => b.classList.remove('ring-2', 'ring-cyan-400'));
+        if (activityAnswers.solution === value) {
+          activityAnswers.solution = null;
+          el.classList.remove('ring-2', 'ring-cyan-400');
+        } else {
+          activityAnswers.solution = value;
+          el.classList.add('ring-2', 'ring-cyan-400');
+        }
+      }
+    }
+
+    function checkActivityAnswers() {
+      const feedback = document.getElementById('activity-feedback');
+      if (activityAnswers.issue === 'nofunctions' && activityAnswers.solution === 'create') {
+        feedback.classList.remove('hidden');
+      } else {
+        feedback.innerHTML = `
+          <div class="bg-red-900/30 rounded-xl p-4 border border-red-500/30">
+            <p class="text-red-400 font-semibold">✗ Not quite right. The issue is lack of functions, and the solution is to create helper functions.</p>
+          </div>
+        `;
+        feedback.classList.remove('hidden');
+      }
+    }
+
+    function resetActivityAnswers() {
+      activityAnswers = { issue: null, solution: null };
+      document.querySelectorAll('.activity-option').forEach(b => b.classList.remove('ring-2', 'ring-cyan-400'));
+      document.getElementById('activity-feedback').classList.add('hidden');
+    }
+
+    // Week 2: OOP Activity
+    function initOOPActivity() {
+      const items = ['StudentID', 'Name', 'GPA', 'Study()', 'Enroll()', 'Sleep()'];
+      const correct = {
+        attributes: new Set(['StudentID', 'Name', 'GPA']),
+        methods: new Set(['Study()', 'Enroll()', 'Sleep()'])
+      };
+      
+      const container = document.getElementById('oop-items');
+      container.innerHTML = items.map(item => `
+        <div 
+          class="px-4 py-2 bg-slate-700 rounded-lg text-sm cursor-move hover:bg-slate-600 transition-all"
+          draggable="true"
+          ondragstart="oopDragStart(event)"
+          data-item="${item}"
+        >
+          ${item}
+        </div>
+      `).join('');
+    }
+
+    function oopDragStart(e) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', e.target.dataset.item);
+    }
+
+    document.addEventListener('dragover', (e) => {
+      if (e.target.classList.contains('oop-drop')) {
+        e.preventDefault();
+        e.target.classList.add('ring-2', 'ring-cyan-400', 'ring-opacity-50');
+      }
+    });
+
+    document.addEventListener('dragleave', (e) => {
+      if (e.target.classList.contains('oop-drop')) {
+        e.target.classList.remove('ring-2', 'ring-cyan-400', 'ring-opacity-50');
+      }
+    });
+
+    document.addEventListener('drop', (e) => {
+      const item = e.dataTransfer.getData('text/plain');
+      const dropType = e.target.closest('.oop-drop')?.dataset.type;
+      
+      if (dropType && item) {
+        const shouldBeAttribute = ['StudentID', 'Name', 'GPA'].includes(item);
+        if ((dropType === 'attributes' && shouldBeAttribute) || (dropType === 'methods' && !shouldBeAttribute)) {
+          const dropZone = e.target.closest('.oop-drop');
+          const itemEl = `<div class="px-3 py-1 bg-green-700 rounded text-sm">${item} ✓</div>`;
+          dropZone.querySelector('p')?.remove();
+          dropZone.insertAdjacentHTML('beforeend', itemEl);
+          
+          const sourceEl = document.querySelector(`[data-item="${item}"]`);
+          if (sourceEl) sourceEl.remove();
+        }
+      }
+    });
+
+    function checkOOPAnswers() {
+      const attrCount = document.querySelectorAll('#attributes-drop > div.bg-green-700').length;
+      const methodCount = document.querySelectorAll('#methods-drop > div.bg-green-700').length;
+      
+      if (attrCount === 3 && methodCount === 3) {
+        document.getElementById('oop-feedback').classList.remove('hidden');
+      }
+    }
+
+    function resetOOPActivity() {
+      initOOPActivity();
+      document.getElementById('attributes-drop').innerHTML = '<p class="text-slate-500 text-sm italic">Drop attributes here...</p>';
+      document.getElementById('methods-drop').innerHTML = '<p class="text-slate-500 text-sm italic">Drop methods here...</p>';
+      document.getElementById('oop-feedback').classList.add('hidden');
+    }
+
+    // Week 3: Modifier Activity
+    function initModifierActivity() {
+      const container = document.getElementById('modifier-activity');
+      const items = [
+        { member: 'BankAccount.balance (internal data)', correct: 'private' },
+        { member: 'BankAccount.Withdraw() (public method)', correct: 'public' },
+        { member: 'Animal.Move() (base method for override)', correct: 'protected' },
+        { member: 'Logger.Log() (internal helper)', correct: 'private' }
+      ];
+      
+      modifierAnswers = {};
+      
+      container.innerHTML = items.map((item, i) => `
+        <div class="bg-slate-800/50 rounded-xl p-4">
+          <p class="text-sm font-semibold text-white mb-3">${item.member}</p>
+          <div class="flex gap-2">
+            ${['public', 'private', 'protected', 'internal'].map(mod => `
+              <button 
+                onclick="selectModifier(${i}, '${mod}', this)"
+                class="flex-1 px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm transition-all modifier-btn"
+                data-question="${i}"
+                data-answer="${mod}"
+              >
+                ${mod}
+              </button>
+            `).join('')}
+          </div>
+          <p class="text-xs text-slate-400 mt-2">Correct: ${item.correct}</p>
+        </div>
+      `).join('');
+    }
+
+    function selectModifier(index, modifier, el) {
+      document.querySelectorAll(`[data-question="${index}"]`).forEach(b => b.classList.remove('ring-2', 'ring-cyan-400'));
+      el.classList.add('ring-2', 'ring-cyan-400');
+      modifierAnswers[index] = modifier;
+    }
+
+    function checkModifierAnswers() {
+      const correct = { 0: 'private', 1: 'public', 2: 'protected', 3: 'private' };
+      let allCorrect = true;
+      
+      for (let i = 0; i < 4; i++) {
+        if (modifierAnswers[i] !== correct[i]) {
+          allCorrect = false;
+        }
+      }
+      
+      const feedback = document.getElementById('modifier-feedback');
+      if (allCorrect) {
+        feedback.innerHTML = `<div class="bg-green-900/30 rounded-xl p-4 border border-green-500/30"><p class="text-green-400 font-semibold">✓ Perfect! You understand access modifiers!</p></div>`;
+      } else {
+        feedback.innerHTML = `<div class="bg-red-900/30 rounded-xl p-4 border border-red-500/30"><p class="text-red-400">Review the answers and try again.</p></div>`;
+      }
+      feedback.classList.remove('hidden');
+    }
+
+    function resetModifierActivity() {
+      initModifierActivity();
+      document.getElementById('modifier-feedback').classList.add('hidden');
+    }
+
+    // Week 4: Constructor Activity
+    function initConstructorActivity() {
+      const container = document.getElementById('constructor-activity');
+      const questions = [
+        { code: 'public Student() { }', question: 'Is this a valid default constructor?', correct: true },
+        { code: 'public Student(string name) { }', question: 'Can we have multiple constructors?', correct: true },
+        { code: 'public int Student() { return 5; }', question: 'Can a constructor have a return type?', correct: false },
+        { code: 'public void Add(int a, int b) { } and public void Add(int a, int b) { }', question: 'Are these valid overloads?', correct: false }
+      ];
+      
+      constructorAnswers = {};
+      
+      container.innerHTML = questions.map((q, i) => `
+        <div class="bg-slate-800/50 rounded-xl p-4">
+          <div class="bg-slate-900/50 rounded-lg p-3 code-block mono text-xs mb-3 overflow-x-auto">
+            ${q.code}
+          </div>
+          <p class="text-sm font-semibold text-white mb-3">${q.question}</p>
+          <div class="flex gap-2">
+            <button 
+              onclick="selectConstructorAnswer(${i}, true, this)"
+              class="flex-1 px-4 py-2 bg-green-900/30 hover:bg-green-800/30 rounded-lg text-sm text-green-400 transition-all const-btn"
+              data-question="${i}"
+            >
+              True
+            </button>
+            <button 
+              onclick="selectConstructorAnswer(${i}, false, this)"
+              class="flex-1 px-4 py-2 bg-red-900/30 hover:bg-red-800/30 rounded-lg text-sm text-red-400 transition-all const-btn"
+              data-question="${i}"
+            >
+              False
+            </button>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('const-total').textContent = questions.length;
+    }
+
+    function selectConstructorAnswer(index, answer, el) {
+      document.querySelectorAll(`[data-question="${index}"]`).forEach(b => b.classList.remove('ring-2', 'ring-cyan-400'));
+      el.classList.add('ring-2', 'ring-cyan-400');
+      constructorAnswers[index] = answer;
+    }
+
+    function checkConstructorAnswers() {
+      const correct = [true, true, false, false];
+      let score = 0;
+      
+      for (let i = 0; i < 4; i++) {
+        if (constructorAnswers[i] === correct[i]) {
+          score++;
+        }
+      }
+      
+      document.getElementById('const-correct').textContent = score;
+      
+      if (score === 4) {
+        completedWeeks.add(4);
+        renderWeekTabs();
+        updateProgress();
+      }
+    }
+
+    function resetConstructorActivity() {
+      initConstructorActivity();
+      document.getElementById('const-correct').textContent = '0';
+    }
+
+    // Week 5: Inheritance Activity
+    function inheritDragStart(e) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', e.target.textContent.trim());
+    }
+
+    function inheritDragOver(e) {
+      e.preventDefault();
+      e.target.closest('.inherit-drop')?.classList.add('ring-2', 'ring-cyan-400');
+    }
+
+    function inheritDrop(e, type) {
+      e.preventDefault();
+      e.target.closest('.inherit-drop')?.classList.remove('ring-2', 'ring-cyan-400');
+      
+      const method = e.dataTransfer.getData('text/plain');
+      const correctMappings = {
+        'car': ['🚙 OpenTrunk()', '🚗 HonkHorn()'],
+        'bike': ['⚙️ ChangeBike()']
+      };
+      
+      if (correctMappings[type]?.includes(method)) {
+        inheritanceAnswers[type].add(method);
+        const dropZone = document.getElementById(`${type}-methods`);
+        dropZone.innerHTML += `<div class="px-3 py-1 bg-green-700 rounded text-sm">${method} ✓</div>`;
+        
+        const sourceEl = [...document.querySelectorAll('#inherit-methods > div')].find(el => el.textContent.includes(method));
+        if (sourceEl) sourceEl.style.display = 'none';
+      }
+    }
+
+    function checkInheritanceAnswers() {
+      const carCorrect = inheritanceAnswers.car.size === 2;
+      const bikeCorrect = inheritanceAnswers.bike.size === 1;
+      
+      if (carCorrect && bikeCorrect) {
+        document.getElementById('inherit-feedback').classList.remove('hidden');
+      }
+    }
+
+    function resetInheritanceActivity() {
+      inheritanceAnswers = { car: new Set(), bike: new Set() };
+      document.getElementById('car-methods').innerHTML = '';
+      document.getElementById('bike-methods').innerHTML = '';
+      document.querySelectorAll('#inherit-methods > div').forEach(el => el.style.display = 'block');
+      document.getElementById('inherit-feedback').classList.add('hidden');
+    }
+
+    // Quiz Functions
+    function renderQuiz(week) {
+      const quizId = `week-${week.id}`;
+      if (!quizState[quizId]) {
+        quizState[quizId] = {
+          answers: {},
+          submitted: false
+        };
+      }
+      
+      const state = quizState[quizId];
+      const questions = week.content.quiz;
+      
+      return `
+        <div class="card-gradient rounded-2xl p-6 border border-slate-600/30">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-white">📝 Week ${week.id} Quiz</h3>
+            <span class="text-sm text-slate-400">${Object.keys(state.answers).length}/${questions.length} answered</span>
+          </div>
+          
+          <div class="space-y-6">
+            ${questions.map((q, i) => `
+              <div class="bg-slate-800/50 rounded-xl p-5 ${state.submitted && state.answers[i] !== undefined ? (state.answers[i] === q.correct ? 'ring-2 ring-green-500/50' : 'ring-2 ring-red-500/50') : ''}">
+                <p class="font-medium text-white mb-4">
+                  <span class="text-cyan-400 mono">${i + 1}.</span> ${q.question}
+                </p>
+                <div class="space-y-2">
+                  ${q.options.map((opt, j) => `
+                    <button 
+                      onclick="selectQuizAnswer('${quizId}', ${i}, ${j})"
+                      class="quiz-option w-full text-left px-4 py-3 rounded-xl border-2 transition-all
+                        ${state.answers[i] === j ? 'selected border-cyan-500' : 'border-slate-600'}
+                        ${state.submitted && j === q.correct ? 'correct border-green-500' : ''}
+                        ${state.submitted && state.answers[i] === j && j !== q.correct ? 'incorrect border-red-500' : ''}"
+                      ${state.submitted ? 'disabled' : ''}
+                    >
+                      <span class="text-slate-400 mr-2">${String.fromCharCode(65 + j)}.</span>
+                      ${opt}
+                    </button>
+                  `).join('')}
+                </div>
+                ${state.submitted && state.answers[i] !== undefined ? `
+                  <div class="mt-4 p-3 rounded-lg ${state.answers[i] === q.correct ? 'bg-green-900/30' : 'bg-slate-700/50'}">
+                    <p class="text-sm ${state.answers[i] === q.correct ? 'text-green-400' : 'text-slate-300'}">
+                      ${state.answers[i] === q.correct ? '✓ Correct!' : '✗ ' + q.explanation}
+                    </p>
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="mt-6 flex items-center justify-between">
+            ${!state.submitted ? `
+              <button 
+                onclick="submitQuiz('${quizId}', ${week.id})"
+                class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-medium hover:opacity-90 transition-all"
+                ${Object.keys(state.answers).length < questions.length ? 'disabled' : ''}
+              >
+                Submit Quiz
+              </button>
+            ` : `
+              <div class="flex items-center gap-4">
+                <span class="text-lg font-bold ${getScorePercentage(state, questions) >= 80 ? 'text-green-400' : getScorePercentage(state, questions) >= 60 ? 'text-yellow-400' : 'text-red-400'}">
+                  Score: ${calculateScore(state, questions)}/${questions.length} (${getScorePercentage(state, questions)}%)
+                </span>
+                ${getScorePercentage(state, questions) >= 80 ? '🏆' : getScorePercentage(state, questions) >= 60 ? '👍' : '📚'}
+              </div>
+              <button 
+                onclick="retakeQuiz('${quizId}')"
+                class="px-6 py-3 bg-slate-700 text-white rounded-xl font-medium hover:bg-slate-600 transition-all"
+              >
+                🔄 Retake Quiz
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function selectQuizAnswer(quizId, questionIndex, answerIndex) {
+      if (quizState[quizId].submitted) return;
+      quizState[quizId].answers[questionIndex] = answerIndex;
+      loadWeekContent(currentWeek);
+    }
+
+    function submitQuiz(quizId, weekId) {
+      quizState[quizId].submitted = true;
+      
+      const week = courseData.weeks.find(w => w.id === weekId);
+      const state = quizState[quizId];
+      
+      if (getScorePercentage(state, week.content.quiz) >= 60) {
+        completedWeeks.add(weekId);
+        renderWeekTabs();
+      }
+      
+      updateProgress();
+      loadWeekContent(currentWeek);
+    }
+
+    function retakeQuiz(quizId) {
+      const weekId = parseInt(quizId.split('-')[1]);
+      quizState[quizId] = { answers: {}, submitted: false };
+      loadWeekContent(currentWeek);
+    }
+
+    function calculateScore(state, questions) {
+      return questions.filter((q, i) => state.answers[i] === q.correct).length;
+    }
+
+    function getScorePercentage(state, questions) {
+      return Math.round((calculateScore(state, questions) / questions.length) * 100);
+    }
+
+    // Progress Tracking
+    function updateProgress() {
+      const percentage = Math.round((completedWeeks.size / courseData.weeks.length) * 100);
+      document.getElementById('overall-progress').textContent = `${percentage}%`;
+      document.getElementById('progress-fill').style.width = `${percentage}%`;
+    }
+
+    // Initialize on load
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cbc08ef242dfed1',t:'MTc3MDczMTAwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
